@@ -5,6 +5,7 @@ from app.models import db
 from app.seller_routes import seller_bp
 from sqlalchemy.exc import OperationalError
 from app.product_routes import product_bp
+from app.sale_routes import sale_bp
 
 app = Flask(__name__)
 
@@ -16,6 +17,7 @@ jwt = JWTManager(app)
 db.init_app(app)
 app.register_blueprint(seller_bp)
 app.register_blueprint(product_bp)
+app.register_blueprint(sale_bp)
 
 def inicializar_banco():
     with app.app_context():

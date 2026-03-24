@@ -13,23 +13,23 @@ def register_sale():
     product_id = data.get('product_id')
     quantidade = data.get('quantidade')
 
-   
+    # 1. Busca o produto e verifica se pertence ao Seller logado
     product = Product.query.filter_by(id=product_id, seller_id=current_seller_id).first()
     
     if not product:
         return jsonify({"erro": "Produto não encontrado"}), 404
 
-    
+    # 2. Verifica se tem estoque suficiente
     if product.quantidade < quantidade:
         return jsonify({"erro": f"Estoque insuficiente. Disponível: {product.quantidade}"}), 400
 
-   
+    # 3. Cálculo do valor total
     valor_total = product.preco * quantidade
 
-    
+    # 4. REGRA DE OURO: Baixa no estoque
     product.quantidade -= quantidade
 
-    
+    # 5. Registra a venda
     new_sale = Sale(
         product_id=product.id,
         seller_id=current_seller_id,

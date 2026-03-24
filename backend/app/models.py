@@ -1,4 +1,5 @@
 from flask_sqlalchemy import SQLAlchemy
+from datetime import datetime
 
 db = SQLAlchemy()
 
@@ -41,4 +42,23 @@ class Product(db.Model):
             "preco": self.preco,
             "quantidade": self.quantidade,
             "seller_id": self.seller_id
+        }
+
+class Sale(db.Model):
+    __tablename__ = 'sales'
+    
+    id = db.Column(db.Integer, primary_key=True)
+    product_id = db.Column(db.Integer, db.ForeignKey('products.id'), nullable=False)
+    seller_id = db.Column(db.Integer, db.ForeignKey('sellers.id'), nullable=False)
+    quantidade_vendida = db.Column(db.Integer, nullable=False)
+    valor_total = db.Column(db.Float, nullable=False)
+    data_venda = db.Column(db.DateTime, default=datetime.utcnow)
+
+    def to_dict(self):
+        return {
+            "id": self.id,
+            "product_id": self.product_id,
+            "quantidade": self.quantidade_vendida,
+            "total": self.valor_total,
+            "data": self.data_venda.strftime("%d/%m/%Y %H:%M")
         }
