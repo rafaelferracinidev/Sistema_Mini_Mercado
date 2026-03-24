@@ -21,6 +21,8 @@ class Seller(db.Model):
             "nome": self.nome,
             "cnpj": self.cnpj,
             "email": self.email,
+            "celular": self.celular,
+            "codigo_ativacao": self.codigo_ativacao,
             "status": self.status
         }
 
